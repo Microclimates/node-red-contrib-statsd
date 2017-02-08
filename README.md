@@ -40,10 +40,6 @@ Here's an example flow that places the output of an MQTT topic into a StatsD ser
 1. Update Statsd package
     1. `npm update --prefix ~/.node-red node-red-contrib-statsd`
 
-## History
-
-- 0.0.1 : Initial Release
-
 ## License
 
 MIT License. See [LICENSE.txt](https://raw.githubusercontent.com/microclimates/node-red-contrib-statsd/master/LICENSE.txt) for more details.
