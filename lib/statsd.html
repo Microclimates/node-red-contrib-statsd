@@ -1,0 +1,90 @@
+<!--
+ The MIT License
+ 
+ Copyright (c) 2016-2017, Microclimates Inc. https://www.microclimates.com
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to
+ deal in the Software without restriction, including without limitation the
+ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ IN THE SOFTWARE.
+-->
+
+<!-- Editor -->
+<script type="text/x-red" data-template-name="statsd">
+    <div class="form-row">
+        <label for="node-input-statsd_host"><i class="fa fa-globe"></i> Statsd host</label>
+        <input type="text" id="node-input-statsd_host" placeholder="localhost">
+    </div>
+    <div class="form-row">
+        <label for="node-input-statsd_port"><i class="fa fa-globe"></i> Statsd port</label>
+        <input type="number" id="node-input-statsd_port" placeholder="8125">
+    </div>
+    <div class="form-row">
+        <label for="node-input-metric_type"><i class="fa fa-tag"></i> Metric type</label>
+        <select id="node-input-metric_type">
+          <option value="gauge" selected>Gauge (last)</option>
+          <option value="timing">Timing (avg)</option>
+          <option value="increment">Increment (sum)</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-metric_prefix"><i class="fa fa-tag"></i> Metric prefix</label>
+        <input type="text" id="node-input-metric_prefix" placeholder="mqtt.">
+    </div>
+    <div class="form-row">
+        <label for="node-input-metric_suffix"><i class="fa fa-tag"></i> Metric suffix</label>
+        <input type="text" id="node-input-metric_suffix" placeholder=".count">
+    </div>
+    <div class="form-row">
+        <label for="node-input-metric_name"><i class="fa fa-tasks"></i> Metric name</label>
+        <input type="text" id="node-input-metric_name" placeholder="livingroom.temp">
+    </div>
+    <div class="form-tips"><b>Tip:</b> Leave metric name blank to use MQTT topic name.</div>
+</script>
+
+
+<!-- Registration -->
+<script type="text/javascript">
+    RED.nodes.registerType('statsd',{
+        category: 'output',     // Palette category
+        defaults: {             // Editable properties
+            statsd_host:   {value:"localhost"},
+            statsd_port:   {value:8125},
+            metric_type:   {value:"gauge", required:true, 
+              validate:function(x){return ['gauge','timing','increment'].indexOf(x) >= 0;}},
+            metric_prefix: {value:"mqtt."},
+            metric_suffix: {value:""},
+            metric_name:   {value:""}
+        },
+        inputs: 1,
+        icon: 'db.png',
+        color: '#FFCC66',
+        align: 'right',
+        label: function() {
+          return 'statsd ' + this.metric_name;
+        },
+        labelStyle: function() { // sets the class to apply to the label
+          return this.metric_name ? 'node_label_italic' : '';
+        }
+    });
+</script>
+
+<!-- Help Text -->
+<script type="text/x-red" data-help-name="statsd">
+   <p>
+   Sends a numeric <code>msg.payload</code> to a time-series backend using statsd.
+   </p>
+</script>
