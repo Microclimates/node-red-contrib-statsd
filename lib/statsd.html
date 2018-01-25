@@ -35,9 +35,10 @@
     <div class="form-row">
         <label for="node-input-metric_type"><i class="fa fa-tag"></i> Metric type</label>
         <select id="node-input-metric_type">
-          <option value="gauge" selected>Gauge (last)</option>
-          <option value="timing">Timing (avg)</option>
-          <option value="increment">Increment (sum)</option>
+          <option value="auto" selected>Auto-select</option>
+          <option value="gauge">Gauge (state)</option>
+          <option value="timing">Timer</option>
+          <option value="increment">Counter (increment)</option>
         </select>
     </div>
     <div class="form-row">
@@ -63,8 +64,8 @@
         defaults: {             // Editable properties
             statsd_host:   {value:"localhost"},
             statsd_port:   {value:8125},
-            metric_type:   {value:"gauge", required:true, 
-              validate:function(x){return ['gauge','timing','increment'].indexOf(x) >= 0;}},
+            metric_type:   {value:"auto", required:true, 
+              validate:function(x){return ['auto','gauge','timing','increment'].indexOf(x) >= 0;}},
             metric_prefix: {value:"mqtt."},
             metric_suffix: {value:""},
             metric_name:   {value:""}
@@ -86,6 +87,15 @@
 <!-- Help Text -->
 <script type="text/x-red" data-help-name="statsd">
    <p>
-   Sends a numeric <code>msg.payload</code> to a time-series backend using statsd.
+     Sends a numeric <code>msg.payload</code> to a time-series backend using statsd.
+   </p>
+   <p>
+     If <code>Metric type</code> is set to <code>auto</code>, the topic name will determine
+     the type based on the following rules
+     <ul>
+       <li>Topics ending in <code>_time</code> will be sent as a timer</li>
+       <li>Topics ending in <code>_count</code> will be sent as a counter</li>
+       <li>All other will be sent as a gauge</li>
+     </ul>
    </p>
 </script>

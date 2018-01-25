@@ -1,7 +1,7 @@
 {
   "name": "node-red-contrib-statsd",
   "author": "Loren West - github.com/lorenwest",
-  "version": "0.1.0",
+  "version": "1.2.1",
   "description": "Node-red output to a StatsD server",
   "license": "MIT",
   "homepage": "https://github.com/microclimates/node-red-contrib-statsd",
