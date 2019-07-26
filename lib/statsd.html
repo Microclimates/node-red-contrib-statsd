@@ -25,6 +25,10 @@
 <!-- Editor -->
 <script type="text/x-red" data-template-name="statsd">
     <div class="form-row">
+      <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
         <label for="node-input-statsd_host"><i class="fa fa-globe"></i> Statsd host</label>
         <input type="text" id="node-input-statsd_host" placeholder="localhost">
     </div>
@@ -62,6 +66,7 @@
     RED.nodes.registerType('statsd',{
         category: 'output',     // Palette category
         defaults: {             // Editable properties
+            name:          {value:""},
             statsd_host:   {value:"localhost"},
             statsd_port:   {value:8125},
             metric_type:   {value:"auto", required:true, 
@@ -72,14 +77,14 @@
         },
         inputs: 1,
         outputs: 0,
-        icon: 'db.png',
+        icon: 'leveldb.png',
         color: '#FFCC66',
         align: 'right',
         label: function() {
-          return 'statsd ' + this.metric_name;
+          return this.name || 'statsd ' + this.metric_name;
         },
         labelStyle: function() { // sets the class to apply to the label
-          return this.metric_name ? 'node_label_italic' : '';
+          return this.name || this.metric_name ? 'node_label_italic' : '';
         }
     });
 </script>

@@ -1,3 +1,9 @@
+1.3.0 - 07/26/2019
+==================
+
+  * Added name property + editor
+  * Changed the icon to better represent a time-series db
+
 1.2.3 - 01/25/2018
 ==================
 
